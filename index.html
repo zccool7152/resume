@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>T. DUNN // NEURAL ARCHITECT // AX-77001</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <style>
+        :root {
+            --bg-void: #020408;
+            --neon-cyan: #00f2ff;
+            --pastel-blue: #b3d9ff;
+            --ui-blue-glass: rgba(179, 217, 255, 0.08);
+            --sidebar-width: 340px;
+        }
+
+        body {
+            background-color: var(--bg-void);
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='42' viewBox='0 0 24 42'%3E%3Cpath d='M12 28.5L0 21.5V7.5L12 0.5L24 7.5V21.5L12 28.5V42' fill='none' stroke='%23b3d9ff' stroke-width='1' opacity='0.08'/%3E%3C/svg%3E");
+            font-family: 'Space Mono', monospace;
+            color: #cbd5e1;
+            margin: 0; display: flex; flex-direction: column;
+            height: 100vh; overflow: hidden;
+        }
+
+        /* 1. FIXED HOLOGRAM LAYER (Sits behind content but above background) */
+        .hologram-layer {
+            position: fixed; top: 0; left: var(--sidebar-width); right: 0; bottom: 0;
+            pointer-events: none; z-index: 1; overflow: hidden;
+        }
+
+        .hologram-text {
+            position: absolute; font-size: 14px; color: var(--neon-cyan);
+            opacity: 0.12; font-family: monospace; font-weight: bold; white-space: pre;
+        }
+
+        /* 2. CORE ANIMATIONS */
+        @keyframes rotateRadar { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        @keyframes scanMove { 0% { top: 0%; opacity: 0; } 50% { opacity: 1; } 100% { top: 100%; opacity: 0; } }
+
+        /* 3. LAYOUT COMPONENTS */
+        .system-header {
+            height: 220px; background: var(--ui-blue-glass); backdrop-filter: blur(20px);
+            border-bottom: 2px solid rgba(179, 217, 255, 0.2);
+            display: flex; align-items: center; padding: 0 40px; position: relative; z-index: 100;
+        }
+
+        .sidebar {
+            width: var(--sidebar-width); background: var(--ui-blue-glass); backdrop-filter: blur(15px);
+            border-right: 1px solid rgba(179, 217, 255, 0.1);
+            position: relative; overflow: hidden; display: flex; flex-direction: column; padding: 30px; z-index: 50;
+        }
+        .sidebar::before {
+            content: ""; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+            background: conic-gradient(from 0deg, transparent, rgba(179,217,255,0.05), transparent 30%);
+            animation: rotateRadar 15s linear infinite;
+        }
+
+        .profile-hub {
+            position: absolute; left: 80px; bottom: -100px; width: 180px; height: 200px; z-index: 110;
+        }
+        .hex-clip {
+            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+            background: #0a111f; border: 1px solid var(--pastel-blue); position: relative; height: 100%;
+        }
+        .scanline {
+            position: absolute; width: 100%; height: 4px; background: var(--pastel-blue);
+            box-shadow: 0 0 15px var(--pastel-blue); animation: scanMove 3s linear infinite; z-index: 2;
+        }
+
+        .main-content { flex-grow: 1; padding: 80px 60px; overflow-y: auto; position: relative; z-index: 10; scroll-behavior: smooth; }
+        .exp-card { border-left: 1px solid rgba(179, 217, 255, 0.1); padding: 25px; margin-bottom: 35px; transition: 0.3s; background: rgba(0,0,0,0.3); }
+        .exp-card:hover { border-left: 2px solid var(--neon-cyan); background: rgba(0, 242, 255, 0.04); transform: translateX(10px); }
+        
+        .tech-tag { font-size: 9px; padding: 2px 8px; border: 1px solid rgba(179, 217, 255, 0.2); color: var(--pastel-blue); margin-right: 5px; margin-top: 5px; display: inline-block; }
+        .glitch-text { font-size: 4rem; font-weight: 700; color: var(--pastel-blue); text-shadow: 0 0 10px rgba(179, 217, 255, 0.3); line-height: 1; }
+    </style>
+</head>
+<body>
+
+    <div class="hologram-layer">
+        <div class="hologram-text" style="top: 10%; right: 5%;">
+        public function query($sql, $params = []) {
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute($params);
+            return $stmt;
+        }
+        </div>
+        <div class="hologram-text" style="bottom: 20%; left: 5%;">
+            private function __construct() {
+                $dsn = "mysql:host=$this->host;dbname=$this->db;charset=$this->charset";
+                $options = [
+                    PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
+                    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+                    PDO::ATTR_EMULATE_PREPARES   => false,
+                ];
+
+                try {
+                    $this->pdo = new PDO($dsn, $this->user, $this->pass, $options);
+                } catch (PDOException $e) {
+                    throw new PDOException($e->getMessage(), (int)$e->getCode());
+                }
+            }
+        </div>
+    </div>
+
+    <header class="system-header">
+        <div class="profile-hub">
+            <div class="hex-clip overflow-hidden">
+                <div class="scanline"></div>
+                <img src="https://i.postimg.cc/j2td97Q6/AKGpihb-Y7T7B-h-Na-Dn-Enh-F2Fg-Fw-Pjflr-Jutk73EKuyb23LXW5War-L4Jm-Tjg-SC9QYc-BNIGba-Qsf-Zw-I3S00WIvk.webp" alt="ID_SCAN" class="w-full h-full object-cover grayscale opacity-80">
+            </div>
+            <div class="absolute -bottom-2 left-1/2 -translate-x-1/2 bg-black border border-blue-400 px-2 py-0.5 text-[9px] text-blue-300 font-bold">AX-77001</div>
+        </div>
+
+        <div class="ml-[340px] pl-10">
+            <p class="text-[10px] text-blue-400 tracking-[0.4em] uppercase font-bold">// Senior_Software_Engineer | Integrations_Specialist</p>
+            <h1 class="glitch-text uppercase">Timothy Dunn</h1>
+            <div class="flex gap-6 mt-4 text-[10px] uppercase text-blue-300/60 font-bold">
+                <span><i class="fa-solid fa-location-crosshairs mr-2"></i>KANSAS CITY, MO</span>
+                <span><i class="fa-solid fa-shield-halved mr-2"></i>15Y_EXPERIENCE_LOGGED</span>
+            </div>
+        </div>
+    </header>
+
+    <div class="flex flex-grow overflow-hidden relative">
+        <aside class="sidebar">
+            <div class="mt-32 relative z-10 flex-grow">
+                <p class="text-[10px] text-slate-500 font-bold tracking-widest mb-6">// DIRECTIVES</p>
+                <nav class="space-y-4 mb-12">
+                    <a href="#summary" class="block text-xs text-blue-300/70 hover:text-blue-200 transition-all font-bold tracking-widest"><i class="fa-solid fa-terminal mr-3"></i>01 SUMMARY</a>
+                    <a href="#skills" class="block text-xs text-blue-300/70 hover:text-blue-200 transition-all font-bold tracking-widest"><i class="fa-solid fa-microchip mr-3"></i>02 NEURAL_STACK</a>
+                    <a href="#experience" class="block text-xs text-blue-300/70 hover:text-blue-200 transition-all font-bold tracking-widest"><i class="fa-solid fa-history mr-3"></i>03 DEPLOYMENT</a>
+                    <a href="#education" class="block text-xs text-blue-300/70 hover:text-blue-200 transition-all font-bold tracking-widest"><i class="fa-solid fa-user-graduate mr-3"></i>04 ACADEMIC</a>
+                </nav>
+
+                <p class="text-[10px] text-slate-500 font-bold tracking-widest mb-4">// DIAGNOSTICS</p>
+                <div class="bg-black/40 border border-blue-900/40 p-4 font-mono text-[10px] text-blue-400 space-y-3 mb-8">
+                    <div class="flex justify-between"><span>CPU:</span><span id="cpu-load">12%</span></div>
+                    <div class="w-full bg-blue-900/20 h-1"><div id="cpu-bar" class="bg-blue-400 h-full transition-all duration-1000" style="width: 12%"></div></div>
+                </div>
+            </div>
+
+            <div class="mt-auto relative z-10 bg-black/60 p-4 border border-blue-400/20">
+                <div class="flex items-center text-blue-400 text-[10px] mb-1">
+                    <span class="mr-2">GUEST@AX:~$</span>
+                    <input type="text" id="cli-input" placeholder="type 'help'..." autocomplete="off" class="bg-transparent border-none outline-none text-blue-400 w-full">
+                </div>
+                <div id="cli-out" class="text-[9px] text-slate-500 font-mono">SYSTEM_READY...</div>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <section id="summary" class="mb-24">
+                <h2 class="text-xs text-blue-300 font-bold tracking-[0.4em] mb-8 uppercase">// PROFESSIONAL_SUMMARY</h2>
+                <p class="text-2xl font-light text-slate-300 leading-relaxed max-w-4xl">
+                    Architecting high-performance <span class="text-blue-200 font-bold">PHP 8.3 environments</span> with over 15 years of deployment history. Expert in secure API orchestration, MySQL optimization, and modernizing legacy infrastructures into scalable, type-safe modules.
+                </p>
+            </section>
+
+            <section id="skills" class="mb-24">
+                <h2 class="text-xs text-blue-300 mb-10 uppercase tracking-[0.4em] font-bold">// NEURAL_STACK_MODULES</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="p-5 border border-blue-900/20 bg-blue-950/20">
+                        <h3 class="text-blue-400 text-[10px] font-bold mb-4 uppercase">[ Back_End ]</h3>
+                        <span class="tech-tag">PHP 8.3</span>
+                        <span class="tech-tag">C# / .NET</span>
+                        <span class="tech-tag">Laravel</span>
+                        <span class="tech-tag">Fat-Free (F3)</span>
+                    </div>
+                    <div class="p-5 border border-blue-900/20 bg-blue-950/20">
+                        <h3 class="text-blue-400 text-[10px] font-bold mb-4 uppercase">[ Data_Systems ]</h3>
+                        <span class="tech-tag">MySQL Opt</span>
+                        <span class="tech-tag">EDI / B2B</span>
+                        <span class="tech-tag">OAuth 2.0</span>
+                        <span class="tech-tag">Redis</span>
+                    </div>
+                    <div class="p-5 border border-blue-900/20 bg-blue-950/20">
+                        <h3 class="text-blue-400 text-[10px] font-bold mb-4 uppercase">[ Operations ]</h3>
+                        <span class="tech-tag">AWS Cloud</span>
+                        <span class="tech-tag">Docker</span>
+                        <span class="tech-tag">RESTful APIs</span>
+                        <span class="tech-tag">CI/CD Pipelines</span>
+                    </div>
+                </div>
+            </section>
+
+            <section id="experience" class="mb-24">
+                <h2 class="text-xs text-blue-300 mb-12 uppercase tracking-[0.4em] font-bold">// DEPLOYMENT_HISTORY</h2>
+
+                <div class="exp-card">
+                    <div class="flex justify-between items-start mb-2">
+                        <h3 class="text-xl font-bold text-white uppercase tracking-wider">Independent Software Consultant</h3>
+                        <span class="text-[9px] text-blue-400 border border-blue-400/30 px-2 font-bold">2024 — 2026</span>
+                    </div>
+                    <ul class="text-sm text-slate-400 mt-3 space-y-2">
+                        <li>• System Architecture Audits: Provided specialized backend consulting and architecture reviews for web applications, focusing on PHP 8.3+ migrations and implementing Readonly Classes and Typed Constants for performance.</li>
+                        <li>• API Prototyping: Designed secure RESTful API structures utilizing OAuth 2.0/JWT and OpenAPI/Swagger for standardized documentation and high-security data exchange.</li>
+                        <li>• Database Engineering: Conducted deep-dive audits of legacy MySQL schemas, implementing indexing strategies that reduced server overhead by an estimated 20%.</li>
+                    </ul>
+                </div>
+
+                <div class="exp-card">
+                    <div class="flex justify-between items-start mb-2">
+                        <h3 class="text-xl font-bold text-white uppercase tracking-wider">Software Engineer / Integrations</h3>
+                        <span class="text-[9px] text-blue-400 border border-blue-400/30 px-2 font-bold">2021 — 2024</span>
+                    </div>
+                    <p class="text-[10px] text-blue-400/60 font-bold mb-2 uppercase tracking-[0.3em]">ApplicantPro</p>
+                    <ul class="text-sm text-slate-400 space-y-2">
+                        <li>• Refactored core recruitment modules using the Fat-Free Framework (F3), increasing processing efficiency by 25%.</li>
+                        <li>• Maintained 99.9% uptime for high-volume recruitment service APIs through proactive monitoring and logic optimization.</li>
+                        <li>• Engineered secure integration points for third-party ATS and HRIS platforms.</li>
+                        <li>• Collaborated in a remote Agile environment, contributing to daily stand-ups, peer code reviews, and automated PHPUnit testing.</li>
+                    </ul>
+                </div>
+
+                <div class="exp-card">
+                    <div class="flex justify-between items-start mb-2">
+                        <h3 class="text-xl font-bold text-white uppercase tracking-wider">Independent Software Consultant</h3>
+                        <span class="text-[9px] text-blue-400 border border-blue-400/30 px-2 font-bold">2017 — 2021</span>
+                    </div>
+                    <ul class="text-sm text-slate-400 space-y-2">
+                        <li>• Managed full-stack modernization of SME platforms utilizing Laravel and Vue.js.</li>
+                        <li>• Built custom middleware for Amazon MWS (Marketplace Web Service) for high-volume inventory and order syncing.</li>
+                        <li>• Integrated complex Social Graph APIs for data-driven marketing tools.</li>
+                    </ul>
+                </div>
+
+                <div class="exp-card">
+                    <div class="flex justify-between items-start mb-2">
+                        <h3 class="text-xl font-bold text-white uppercase tracking-wider">Software Engineer</h3>
+                        <span class="text-[9px] text-blue-400 border border-blue-400/30 px-2 font-bold">2009 — 2017</span>
+                    </div>
+                    <p class="text-[10px] text-blue-400/60 font-bold mb-2 uppercase tracking-[0.3em]">Dreambox Services</p>
+                    <ul class="text-sm text-slate-400 space-y-2">
+                        <li>• Designed scalable enterprise architecture for ASP.NET web applications using C# and MSSQL.</li>
+                        <li>• Developed core algorithms for high-load financial data processing and real-time calculation engines.</li>
+                        <li>• Managed end-to-end SDLC for proprietary internal business tools.</li>
+                    </ul>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="p-4 border border-blue-900/20 bg-blue-950/10">
+                        <h4 class="text-sm font-bold text-white uppercase">Royal Canin</h4>
+                        <p class="text-[9px] text-blue-400 font-bold uppercase tracking-widest">2008 — 2009 // EDI Coordinator</p>
+                        <p class="text-[10px] text-slate-500 mt-2">Managed high-volume electronic data interchange transactions.</p>
+                    </div>
+                    <div class="p-4 border border-blue-900/20 bg-blue-950/10">
+                        <h4 class="text-sm font-bold text-white uppercase">Robert Half</h4>
+                        <p class="text-[9px] text-blue-400 font-bold uppercase tracking-widest">2007 — 2008 // Consultant</p>
+                        <p class="text-[10px] text-slate-500 mt-2">Strategic IT consulting for regional enterprise partners.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="education">
+                <h2 class="text-xs text-blue-300 mb-8 uppercase tracking-[0.4em] font-bold">// ACADEMIC_CERTIFICATION</h2>
+                <div class="p-6 border border-blue-900/30 bg-blue-950/20 flex items-center gap-6">
+                    <i class="fa-solid fa-graduation-cap text-3xl text-blue-400"></i>
+                    <div>
+                        <h3 class="text-xl font-bold text-white uppercase tracking-widest">B.S. Information Technology</h3>
+                        <p class="text-sm text-blue-400/80 font-bold">Vatterott College // Fenton, MO</p>
+                    </div>
+                </div>
+            </section>
+
+            <footer class="mt-20 pt-10 border-t border-blue-900/20 text-[9px] text-slate-600 uppercase flex justify-between font-bold">
+                <span>SYSTEM_LOG_CLOSED // AX-77001_V4.3</span>
+                <span>SECURE_DATA_ARCHIVE_VERIFIED</span>
+            </footer>
+        </main>
+    </div>
+
+    <script>
+        const input = document.getElementById('cli-input');
+        const output = document.getElementById('cli-out');
+        input.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                const cmd = input.value.toLowerCase().trim();
+                input.value = '';
+                if(cmd === 'help') output.innerText = "summary, skills, history, education, contact, clear";
+                else if(cmd === 'summary') { window.location.href = "#summary"; output.innerText = "ACCESSING..."; }
+                else if(cmd === 'skills') { window.location.href = "#skills"; output.innerText = "ACCESSING..."; }
+                else if(cmd === 'skills') { window.location.href = "#skills"; output.innerText = "ACCESSING..."; }
+                else if(cmd === 'education') { window.location.href = "#education"; output.innerText = "ACCESSING..."; }
+                else if(cmd === 'contact') output.innerText = "MAIL: zccool4718@outlook.com";
+                else if(cmd === 'clear') output.innerText = "SYSTEM_READY...";
+                else output.innerText = `CMD ERROR: ${cmd}`;
+            }
+        });
+
+        setInterval(() => {
+            const load = Math.floor(Math.random() * (25 - 12 + 1) + 12);
+            document.getElementById('cpu-load').innerText = load + "%";
+            document.getElementById('cpu-bar').style.width = load + "%";
+        }, 3000);
+    </script>
+</body>
+</html>
